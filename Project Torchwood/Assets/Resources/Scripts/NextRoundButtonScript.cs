@@ -10,11 +10,12 @@ public class NextRoundButtonScript : MonoBehaviour
             Debug.Log("The night has passed. The monsters have left.");
             return;
         }
-        PlayerData.mov = 2;
+        PlayerData.mov = PlayerData.maxmov;
         PlayerData.canAttack = true;
         PlayerData.canUseItem = true;
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
         foreach(GameObject monster in monsters){
+            monster.GetComponent<Enemy>().mov = monster.GetComponent<Enemy>().maxmov;
             MonsterMovement(monster);
         }
     }
@@ -24,31 +25,35 @@ public class NextRoundButtonScript : MonoBehaviour
         int[] monsterGrid = PlayerInteraction.getItemGrid(pos.x,pos.y);
         int[] playerGrid = PlayerInteraction.getPlayerGrid();
         int[] targetGrid = null;
-        if(monsterGrid[0]-playerGrid[0]>0){
-            if(!PlayerInteraction.gridOccupied(monsterGrid[0]-1,monsterGrid[1])){
-                targetGrid = new int[]{monsterGrid[0]-1,monsterGrid[1]};
+        while(monster.GetComponent<Enemy>().mov > 0){
+            if(monsterGrid[0]-playerGrid[0]>0){
+                if(!PlayerInteraction.gridOccupied(monsterGrid[0]-1,monsterGrid[1])){
+                    targetGrid = new int[]{monsterGrid[0]-1,monsterGrid[1]};
+                }
+            } 
+            if(monsterGrid[0]-playerGrid[0]<0){
+                if(!PlayerInteraction.gridOccupied(monsterGrid[0]+1,monsterGrid[1])){
+                    targetGrid = new int[]{monsterGrid[0]+1,monsterGrid[1]};
+                }
+            } 
+            if(monsterGrid[1]-playerGrid[1]>0){
+                if(!PlayerInteraction.gridOccupied(monsterGrid[0],monsterGrid[1]-1)){
+                    targetGrid = new int[]{monsterGrid[0],monsterGrid[1]-1};
+                }
+            } 
+            if(monsterGrid[1]-playerGrid[1]<0){
+                if(!PlayerInteraction.gridOccupied(monsterGrid[0],monsterGrid[1]+1)){
+                    targetGrid = new int[]{monsterGrid[0],monsterGrid[1]+1};
+                }
+            } 
+            if(targetGrid!=null){
+                monster.transform.position = PlayerInteraction.getPosWithGrid(targetGrid);
             }
-        } 
-        if(monsterGrid[0]-playerGrid[0]<0){
-            if(!PlayerInteraction.gridOccupied(monsterGrid[0]+1,monsterGrid[1])){
-                targetGrid = new int[]{monsterGrid[0]+1,monsterGrid[1]};
-            }
-        } 
-        if(monsterGrid[1]-playerGrid[1]>0){
-            if(!PlayerInteraction.gridOccupied(monsterGrid[0],monsterGrid[1]-1)){
-                targetGrid = new int[]{monsterGrid[0],monsterGrid[1]-1};
-            }
-        } 
-        if(monsterGrid[1]-playerGrid[1]<0){
-            if(!PlayerInteraction.gridOccupied(monsterGrid[0],monsterGrid[1]+1)){
-                targetGrid = new int[]{monsterGrid[0],monsterGrid[1]+1};
-            }
-        } 
-        if(targetGrid!=null){
-            monster.transform.position = PlayerInteraction.getPosWithGrid(targetGrid);
+            pos = monster.transform.position;
+            monsterGrid = PlayerInteraction.getItemGrid(pos.x,pos.y);
+            monster.GetComponent<Enemy>().mov --;
         }
-        pos = monster.transform.position;
-        monsterGrid = PlayerInteraction.getItemGrid(pos.x,pos.y);
+        
         if(Mathf.Abs(monsterGrid[0]-playerGrid[0])<=1 && Mathf.Abs(monsterGrid[1]-playerGrid[1])<=1){
             PlayerData.HP -= monster.GetComponent<Enemy>().attack;
         }

@@ -48,7 +48,8 @@ MonoBehaviour:
   type: small
   HP: 3
   attack: 1
-  mov: 1
+  maxmov: 2
+  mov: 2
 --- !u!212 &6870067733280576572
 SpriteRenderer:
   m_ObjectHideFlags: 0

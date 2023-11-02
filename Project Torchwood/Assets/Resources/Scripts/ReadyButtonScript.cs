@@ -13,7 +13,15 @@ public class ReadyButtonScript : MonoBehaviour
     public GameObject Boss;
     public Vector2[] smallMonsterSpawnPos;
     public Vector2 bossSpawnPos;
+    public GameObject HarvestButtion;
+    public GameObject NextRoundButton;
+    public GameObject ReadyButton;
+    public GameObject MovementText;
     public void ReadyButtonOnClick(){
+        HarvestButtion.SetActive(true);
+        NextRoundButton.SetActive(true);
+        MovementText.SetActive(true);
+        ReadyButton.SetActive(false);
         if(Garden.canHarvest){
             Debug.Log("You're already ready.");
             return;

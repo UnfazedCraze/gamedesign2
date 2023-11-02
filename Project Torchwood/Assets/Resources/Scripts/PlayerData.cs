@@ -13,6 +13,7 @@ public class PlayerData : MonoBehaviour
     public static List<Melee> MeleeInventory;
     public static List<Potion> PotionInventory;
     public static int mov;
+    public static int maxmov;
     public static bool canAttack;
     public static bool canUseItem;
 
@@ -21,7 +22,8 @@ public class PlayerData : MonoBehaviour
     void Start(){
         PlayerData.HP = 15;
         PlayerData.AP = 15;
-        PlayerData.mov = 2;
+        PlayerData.maxmov = 4;
+        PlayerData.mov = PlayerData.maxmov;
         PlayerData.canAttack = true;
         PlayerData.canUseItem = true;
         PlayerData.Name = "testPlayer1";

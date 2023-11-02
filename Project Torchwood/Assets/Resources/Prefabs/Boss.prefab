@@ -48,7 +48,8 @@ MonoBehaviour:
   type: Boss
   HP: 12
   attack: 2
-  mov: 1
+  maxmov: 2
+  mov: 2
 --- !u!212 &7585355940552106104
 SpriteRenderer:
   m_ObjectHideFlags: 0
