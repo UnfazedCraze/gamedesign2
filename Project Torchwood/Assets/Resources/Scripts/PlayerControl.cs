@@ -33,17 +33,22 @@ public class PlayerControl : MonoBehaviour
         Vector3 move = new Vector3(0f,0f,0f);
         if(Input.GetKeyUp(KeyCode.W)){
             move = new Vector3(0f,moveSpeed,0f);
+            PlayerData.facingDirection = "Up";
         }
         if(Input.GetKeyUp(KeyCode.S)){
             move = new Vector3(0f,-moveSpeed,0f);
+            PlayerData.facingDirection = "Down";
         }
         if(Input.GetKeyUp(KeyCode.A)){
             move = new Vector3(-moveSpeed,0f,0f);
+            PlayerData.facingDirection = "Left";
         }
         if(Input.GetKeyUp(KeyCode.D)){
             move = new Vector3(moveSpeed,0f,0f);
+            PlayerData.facingDirection = "Right";
         }
         if(move.x != 0f || move.y != 0f){
+            Debug.Log(PlayerData.facingDirection);
             if(Garden.canHarvest){
                 if(PlayerData.mov <= 0){
                     Debug.Log("You ran out of movement.");
@@ -53,7 +58,29 @@ public class PlayerControl : MonoBehaviour
             }
             transform.position += move;
         }
-        
+        //Press Q and E to circle around your melee inventory
+        if(Input.GetKeyUp(KeyCode.E)){
+            if(PlayerData.MeleeInventory.Count != 0){
+                // Debug.Log(PlayerData.MeleeInventory.Count);
+                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
+                Melee temp = PlayerData.DequeueMelee();
+                // Debug.Log(PlayerData.MeleeInventory.Count);
+                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
+                // Debug.Log(temp.durability);
+                PlayerData.EnqueueMelee(temp);
+                // Debug.Log(PlayerData.MeleeInventory.Count);
+                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
+            }
+        }
+        if(Input.GetKeyUp(KeyCode.Q)){
+            if(PlayerData.MeleeInventory.Count != 0){
+                for(int i = 0; i < PlayerData.MeleeInventory.Count-1; i++){
+                    Melee temp = PlayerData.DequeueMelee();
+                    PlayerData.EnqueueMelee(temp);
+                }
+
+            }
+        }
         
     }
 }

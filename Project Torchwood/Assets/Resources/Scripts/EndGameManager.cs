@@ -19,7 +19,7 @@ public class EndGameManager : MonoBehaviour
         if(PlayerData.HP <= 0){
             losingText.SetActive(true);
         }
-        if(Garden.canHarvest == true && GameObject.FindGameObjectsWithTag("Monster") == null){
+        if(Garden.canHarvest == true && GameObject.FindGameObjectsWithTag("Monster").Length == 0){
             winningText.SetActive(true);
         }
         if(Garden.remainingRounds <= 0){

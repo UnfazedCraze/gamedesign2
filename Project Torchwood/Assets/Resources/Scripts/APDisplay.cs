@@ -16,7 +16,7 @@ public class APDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        APText.text = "AP: " + PlayerData.AP;
+        APText.text = "" + PlayerData.AP;
         
         if(Input.GetKeyDown(KeyCode.Backspace)){
             PlayerData.AP--;

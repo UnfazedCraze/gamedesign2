@@ -64,13 +64,13 @@ public class MeleeSlotScript : MonoBehaviour
                 if(PlayerData.canAttack && PlayerData.MeleeInventory.Count>0){
                     Debug.Log("Hit");
                     PlayerData.canAttack = false;
-                    target.GetComponent<Enemy>().takeDamage(PlayerData.MeleeInventory[0].damage);
+                    target.GetComponent<Enemy>().takeDamage(PlayerData.MeleeInventory.Peek().damage);
                     if(target.GetComponent<Enemy>().HP <= 0){
                         GameObject.Destroy(target);
                     }
-                    PlayerData.MeleeInventory[0].durability--;
-                    if(PlayerData.MeleeInventory[0].durability==0){
-                        PlayerData.MeleeInventory.RemoveAt(0);
+                    PlayerData.MeleeInventory.Peek().durability--;
+                    if(PlayerData.MeleeInventory.Peek().durability<=0){
+                        PlayerData.DequeueMelee();
                     }
                 }
             }

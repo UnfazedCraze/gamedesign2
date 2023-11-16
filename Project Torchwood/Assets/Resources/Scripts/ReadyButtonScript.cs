@@ -17,15 +17,23 @@ public class ReadyButtonScript : MonoBehaviour
     public GameObject NextRoundButton;
     public GameObject ReadyButton;
     public GameObject MovementText;
+    public GameObject RoundsLeftText;
     public void ReadyButtonOnClick(){
         HarvestButtion.SetActive(true);
         NextRoundButton.SetActive(true);
         MovementText.SetActive(true);
+        RoundsLeftText.SetActive(true);
         ReadyButton.SetActive(false);
         if(Garden.canHarvest){
             Debug.Log("You're already ready.");
             return;
         }
+
+        foreach(Vector2 pos in smallMonsterSpawnPos){
+            Instantiate(smallMonster,pos,Quaternion.identity);
+        }
+        Instantiate(Boss,bossSpawnPos,Quaternion.identity);
+
         Garden.canHarvest = true;
         seeds = GameObject.FindGameObjectsWithTag("Seed");
         foreach(GameObject obj in seeds){
@@ -46,10 +54,7 @@ public class ReadyButtonScript : MonoBehaviour
 
             Instantiate(plantToBeGrown,plant_pos,Quaternion.identity);
         }
-        foreach(Vector2 pos in smallMonsterSpawnPos){
-            Instantiate(smallMonster,pos,Quaternion.identity);
-        }
-        Instantiate(Boss,bossSpawnPos,Quaternion.identity);
+
 
 
 

@@ -30,6 +30,10 @@ public class HarvestButtonScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerData.PlantInventory.Add(new Plant("a"));
+        PlayerData.PlantInventory.Add(new Plant("b"));
+        PlayerData.PlantInventory.Add(new Plant("c"));
+        PlayerData.PlantInventory.Add(new Plant("c"));
 
         
     }

@@ -21,11 +21,13 @@ public class NextRoundButtonScript : MonoBehaviour
     }
 
     public void MonsterMovement(GameObject monster){
+        Enemy enemy = monster.GetComponent<Enemy>();
         Vector2 pos = monster.transform.position;
         int[] monsterGrid = PlayerInteraction.getItemGrid(pos.x,pos.y);
+        // Garden.gridOccupied[monsterGrid[0],monsterGrid[1]] = false;
         int[] playerGrid = PlayerInteraction.getPlayerGrid();
         int[] targetGrid = null;
-        while(monster.GetComponent<Enemy>().mov > 0){
+        while(enemy.mov > 0){ 
             if(monsterGrid[0]-playerGrid[0]>0){
                 if(!PlayerInteraction.gridOccupied(monsterGrid[0]-1,monsterGrid[1])){
                     targetGrid = new int[]{monsterGrid[0]-1,monsterGrid[1]};
@@ -51,11 +53,12 @@ public class NextRoundButtonScript : MonoBehaviour
             }
             pos = monster.transform.position;
             monsterGrid = PlayerInteraction.getItemGrid(pos.x,pos.y);
-            monster.GetComponent<Enemy>().mov --;
+            // Garden.gridOccupied[monsterGrid[0],monsterGrid[1]] = false;
+            enemy.mov --;
         }
         
         if(Mathf.Abs(monsterGrid[0]-playerGrid[0])<=1 && Mathf.Abs(monsterGrid[1]-playerGrid[1])<=1){
-            PlayerData.HP -= monster.GetComponent<Enemy>().attack;
+            PlayerData.HP -= enemy.attack;
         }
 
     }

@@ -19,7 +19,7 @@ public class CraftingTableManager : MonoBehaviour
         if(slot.item is Plant){
             PlayerData.PlantInventory.Add((Plant)(slot.item));
         } else if(slot.item is Melee){
-            PlayerData.MeleeInventory.Add((Melee)(slot.item));
+            PlayerData.EnqueueMelee(PlayerData.craftMelee(slot.item.name));
         } else if(slot.item is Potion){
             PlayerData.PotionInventory.Add((Potion)(slot.item));
         }

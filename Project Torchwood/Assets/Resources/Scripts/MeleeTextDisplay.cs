@@ -19,8 +19,8 @@ public class MeleeTextDisplay : MonoBehaviour
         int atk = 0;
         int durability = 0;
         if(PlayerData.MeleeInventory.Count!=0){
-            atk = PlayerData.MeleeInventory[0].damage;
-            durability = PlayerData.MeleeInventory[0].durability;
+            atk = PlayerData.MeleeInventory.Peek().damage;
+            durability = PlayerData.MeleeInventory.Peek().durability;
         }
         MeleeText.text = "Atk: "+atk+"\nDurability: "+durability;
     }
