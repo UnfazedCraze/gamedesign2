@@ -40,21 +40,45 @@ public class PotionSlotScript : MonoBehaviour
                 }
 
                 if(PlayerData.canUseItem && PlayerData.PotionInventory.Count>0){
+                    if(Equals(PlayerData.PotionInventory.Peek().name,"2")){
+                        PlayerData.HP += 5;
+                        PlayerData.PotionInventory.Dequeue();
+                        return;
+                    }
+
                     Debug.Log("Boom");
                     PlayerData.canUseItem = false;
-                    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Monster");
-                    foreach(GameObject enemy in enemies){
-                        // Debug.Log(worldPos+"     "+enemy.transform.position);
-                        int[] monsterGrid = PlayerInteraction.getItemGrid(enemy.transform.position.x,enemy.transform.position.y);
-                        if(Mathf.Abs(targetGrid[0]-monsterGrid[0])+Mathf.Abs(targetGrid[1]-monsterGrid[1])<=1){
-                            enemy.GetComponent<Enemy>().takeDamage(PlayerData.PotionInventory[0].damage);
-                            if(enemy.GetComponent<Enemy>().HP <= 0){
-                                GameObject.Destroy(enemy);
+                    List<Enemy> enemies = new List<Enemy>();
+
+                    for(int i = 0; i < Garden.tiles.Length; i++){
+                        for(int j = 0; j < Garden.tiles[i].Length; j++){
+                            if(Garden.tiles[i][j]!=null && Garden.tiles[i][j] is Enemy){
+                                Enemy e = (Enemy)Garden.tiles[i][j];
+                                if(Mathf.Abs(targetGrid[0]-i)+Mathf.Abs(targetGrid[1]-j)<=1){
+                                    e.takeDamage(PlayerData.PotionInventory.Peek().damage);
+                                }
+                                if(Equals(PlayerData.PotionInventory.Peek().name,"3")){
+                                    e.isFrozen = true;
+                                }
                             }
                         }
-                        
                     }
-                    PlayerData.PotionInventory.RemoveAt(0);
+
+
+                    // GameObject[] enemies = GameObject.FindGameObjectsWithTag("Monster");
+                    // foreach(GameObject enemy in enemies){
+                    //     // Debug.Log(worldPos+"     "+enemy.transform.position);
+                    //     int[] monsterGrid = PlayerInteraction.getItemGrid(enemy.transform.position.x,enemy.transform.position.y);
+                    //     if(Mathf.Abs(targetGrid[0]-monsterGrid[0])+Mathf.Abs(targetGrid[1]-monsterGrid[1])<=1){
+                    //         enemy.GetComponent<Enemy>().takeDamage(PlayerData.PotionInventory.Peek().damage);
+                    //         if(enemy.GetComponent<Enemy>().HP <= 0){
+                    //             GameObject.Destroy(enemy);
+                    //         }
+                    //     }
+                        
+                    // }
+                    PlayerData.PotionInventory.Dequeue();
+                    Garden.reloadGarden();
                 }
 
             }

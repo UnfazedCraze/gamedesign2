@@ -10,13 +10,13 @@ public class MovementDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData.mov = PlayerData.maxmov;
+        PlayerData.AP = PlayerData.maxAP;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovementText.text = "Mov: " + PlayerData.mov;
+        // MovementText.text = "Mov: " + PlayerData.mov;
 
     }
 }

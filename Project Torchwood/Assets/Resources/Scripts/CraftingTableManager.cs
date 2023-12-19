@@ -10,18 +10,18 @@ public class CraftingTableManager : MonoBehaviour
 
     public Item[] itemList = new Item[2];
     public string[] recipes;
-    public Item[] recipeResults = {new Melee("1",5,2),new Potion("1",4)};
+    public Item[] recipeResults = {new Melee("1",5,2),new Melee("2",8,3),new Melee("3",12,2),new Potion("1",4),new Potion("2",0),new Potion("3",1)};
     
     public Sprite[] recipeResultImage;
     public CraftingSlot[] craftingSlots;
 
     public void OnClickSlot(CraftingSlot slot){
-        if(slot.item is Plant){
-            PlayerData.PlantInventory.Add((Plant)(slot.item));
+        if(slot.item is Harvestment){
+            PlayerData.HarvestmentInventory.Add((Harvestment)(slot.item));
         } else if(slot.item is Melee){
             PlayerData.EnqueueMelee(PlayerData.craftMelee(slot.item.name));
         } else if(slot.item is Potion){
-            PlayerData.PotionInventory.Add((Potion)(slot.item));
+            PlayerData.EnqueuePotion(PlayerData.craftPotion(slot.item.name));
         }
         if(slot.index == 999){
             foreach(CraftingSlot craftingSlot in craftingSlots){

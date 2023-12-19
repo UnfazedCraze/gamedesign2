@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Harvestable
   - Seed
   - Monster
+  - Plant
   layers:
   - Default
   - TransparentFX
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2536854533
+    locked: 0
+  - name: Text
+    uniqueID: 392443721
     locked: 0

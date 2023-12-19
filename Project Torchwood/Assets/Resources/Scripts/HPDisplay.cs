@@ -16,7 +16,7 @@ public class HPDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HPText.text = "" + PlayerData.HP;
+        HPText.text = "HP: " + PlayerData.HP;
         
         if(Input.GetKeyDown(KeyCode.Space)){
             PlayerData.HP--;

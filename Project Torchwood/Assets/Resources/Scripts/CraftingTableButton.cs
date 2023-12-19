@@ -18,19 +18,19 @@ public class CraftingTableButton : MonoBehaviour
     public void CraftingTableButtonOnClick(){
 
         foreach(CraftingSlot slot in craftingSlots){
-            Item item = new Plant(itemName);
+            Item item = new Harvestment(itemName);
 
             if(slot.item == null){
                 bool hasItem = false;
                 int index = 0;
-                foreach(Plant plant in PlayerData.PlantInventory){
-                    Debug.Log(plant.name+","+item.name);
-                    Debug.Log(plant.name == item.name);
-                    if(plant.name == item.name){
+                foreach(Harvestment harvestment in PlayerData.HarvestmentInventory){
+                    Debug.Log(harvestment.name+","+item.name);
+                    Debug.Log(harvestment.name == item.name);
+                    if(harvestment.name == item.name){
                         hasItem = true;
-                        Debug.Log(item.name+"Equal"+plant.name);
-                        item = plant;
-                        PlayerData.PlantInventory.RemoveAt(index);
+                        Debug.Log(item.name+"Equal"+harvestment.name);
+                        item = harvestment;
+                        PlayerData.HarvestmentInventory.RemoveAt(index);
                         break;
                     }
                     index ++;

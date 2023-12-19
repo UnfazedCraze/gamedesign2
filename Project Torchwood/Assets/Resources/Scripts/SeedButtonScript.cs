@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SeedButtonScript : MonoBehaviour
 {
-    public GameObject seedInstance;
+
     public string seedName;
     public void plantSeed(){
         if(Garden.canHarvest){
             Debug.Log("It's not the time for planting.");
             return;
         }
-        PlayerInteraction.plantSeed(seedName,seedInstance);
+        PlayerInteraction.plantSeed(seedName);
     }
     // Start is called before the first frame update
     void Start()

@@ -6,6 +6,8 @@ public class PlayerControl : MonoBehaviour
 {
     // public Transform movePoint;
     private float moveSpeed;
+    public GameObject MeleeSlot;
+    public GameObject PotionSlot;
 
     // public float speed;
     // private Rigidbody2D rb;
@@ -17,7 +19,7 @@ public class PlayerControl : MonoBehaviour
     {
         // rb = GetComponent<Rigidbody2D>();
         // movePoint.parent = null;
-        moveSpeed = 0.6f;
+        moveSpeed = 0.9f;
         
         
     }
@@ -31,56 +33,107 @@ public class PlayerControl : MonoBehaviour
         // Vector2 input = new Vector2(inputX, inputY).normalized;
         // rb.velocity = input*speed;
         Vector3 move = new Vector3(0f,0f,0f);
+        int x = PlayerInteraction.getPlayerGrid()[0];
+        int y = PlayerInteraction.getPlayerGrid()[1];
         if(Input.GetKeyUp(KeyCode.W)){
+            // Debug.Log(PlayerInteraction.player.position.x+" "+PlayerInteraction.player.position.y);
+            // Debug.Log(PlayerInteraction.getPlayerGrid()[0]+" "+PlayerInteraction.getPlayerGrid()[1]);
+            if(y==0){
+                return;
+            }
+            if(Garden.tiles[x][y-1]!=null && !(Garden.tiles[x][y-1] is Seed)){
+                Debug.Log("Way blocked");
+                return;
+            }
             move = new Vector3(0f,moveSpeed,0f);
             PlayerData.facingDirection = "Up";
         }
         if(Input.GetKeyUp(KeyCode.S)){
+            if(y==7){
+                return;
+            }
+            if(Garden.tiles[x][y+1]!=null && !(Garden.tiles[x][y+1] is Seed)){
+                Debug.Log("Way blocked");
+                return;
+            }
             move = new Vector3(0f,-moveSpeed,0f);
             PlayerData.facingDirection = "Down";
         }
         if(Input.GetKeyUp(KeyCode.A)){
+            if(x==0){
+                return;
+            }
+            if(Garden.tiles[x-1][y]!=null && !(Garden.tiles[x-1][y] is Seed)){
+                Debug.Log("Way blocked");
+                return;
+            }
             move = new Vector3(-moveSpeed,0f,0f);
             PlayerData.facingDirection = "Left";
         }
         if(Input.GetKeyUp(KeyCode.D)){
+            if(x==7){
+                return;
+            }
+            if(Garden.tiles[x+1][y]!=null && !(Garden.tiles[x+1][y] is Seed)){
+                Debug.Log("Way blocked");
+                return;
+            }
             move = new Vector3(moveSpeed,0f,0f);
             PlayerData.facingDirection = "Right";
         }
         if(move.x != 0f || move.y != 0f){
             Debug.Log(PlayerData.facingDirection);
             if(Garden.canHarvest){
-                if(PlayerData.mov <= 0){
+                if(!PlayerData.consumeAP(1)){
                     Debug.Log("You ran out of movement.");
                     return;
                 }
-                PlayerData.mov--;
             }
             transform.position += move;
         }
         //Press Q and E to circle around your melee inventory
         if(Input.GetKeyUp(KeyCode.E)){
-            if(PlayerData.MeleeInventory.Count != 0){
-                // Debug.Log(PlayerData.MeleeInventory.Count);
-                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
-                Melee temp = PlayerData.DequeueMelee();
-                // Debug.Log(PlayerData.MeleeInventory.Count);
-                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
-                // Debug.Log(temp.durability);
-                PlayerData.EnqueueMelee(temp);
-                // Debug.Log(PlayerData.MeleeInventory.Count);
-                // Debug.Log(PlayerData.MeleeInventory.Peek().durability);
-            }
-        }
-        if(Input.GetKeyUp(KeyCode.Q)){
-            if(PlayerData.MeleeInventory.Count != 0){
-                for(int i = 0; i < PlayerData.MeleeInventory.Count-1; i++){
+            if(MeleeSlot.activeSelf){
+                if(PlayerData.MeleeInventory.Count != 0){
                     Melee temp = PlayerData.DequeueMelee();
                     PlayerData.EnqueueMelee(temp);
                 }
+            }else{
+                if(PlayerData.PotionInventory.Count != 0){
+                    Potion temp = PlayerData.DequeuePotion();
+                    PlayerData.EnqueuePotion(temp);
+                }
+            }
+            
+        }
+        if(Input.GetKeyUp(KeyCode.Q)){
+            if(MeleeSlot.activeSelf){
+                if(PlayerData.MeleeInventory.Count != 0){
+                    for(int i = 0; i < PlayerData.MeleeInventory.Count-1; i++){
+                        Melee temp = PlayerData.DequeueMelee();
+                        PlayerData.EnqueueMelee(temp);
+                    }
 
+                }
+            }else{
+                if(PlayerData.PotionInventory.Count != 0){
+                    for(int i = 0; i < PlayerData.PotionInventory.Count-1; i++){
+                        Potion temp = PlayerData.DequeuePotion();
+                        PlayerData.EnqueuePotion(temp);
+                    }
+
+                }
+            }
+            
+        }
+        if(Input.GetKeyUp(KeyCode.Tab)){
+            if(MeleeSlot.activeSelf){
+                MeleeSlot.SetActive(false);
+                PotionSlot.SetActive(true);
+            }else{
+                MeleeSlot.SetActive(true);
+                PotionSlot.SetActive(false);
             }
         }
-        
     }
 }

@@ -55,8 +55,13 @@ public class MeleeSlotScript : MonoBehaviour
                 int[] targetGrid = PlayerInteraction.getItemGrid(targetPos.x,targetPos.y);
                 int[] playerGrid = PlayerInteraction.getPlayerGrid();
 
-                if(Mathf.Abs(targetGrid[0]-playerGrid[0])>1 || Mathf.Abs(targetGrid[1]-playerGrid[1])>1){
-                    Debug.Log("You can only attack within range 1 tile");
+                int range = 1;
+                if(Equals(PlayerData.MeleeInventory.Peek().name,3)){
+                    range = 2;
+                }
+
+                if(Mathf.Abs(targetGrid[0]-playerGrid[0])>range || Mathf.Abs(targetGrid[1]-playerGrid[1])>range){
+                    Debug.Log("You can only attack within range tile");
                     currentItem = null;
                     return;
                 }
@@ -64,14 +69,13 @@ public class MeleeSlotScript : MonoBehaviour
                 if(PlayerData.canAttack && PlayerData.MeleeInventory.Count>0){
                     Debug.Log("Hit");
                     PlayerData.canAttack = false;
-                    target.GetComponent<Enemy>().takeDamage(PlayerData.MeleeInventory.Peek().damage);
-                    if(target.GetComponent<Enemy>().HP <= 0){
-                        GameObject.Destroy(target);
-                    }
+                    Enemy e = (Enemy)Garden.tiles[targetGrid[0]][targetGrid[1]];
+                    e.takeDamage(PlayerData.MeleeInventory.Peek().damage);
                     PlayerData.MeleeInventory.Peek().durability--;
                     if(PlayerData.MeleeInventory.Peek().durability<=0){
                         PlayerData.DequeueMelee();
                     }
+                    Garden.reloadGarden();
                 }
             }
             currentItem = null;

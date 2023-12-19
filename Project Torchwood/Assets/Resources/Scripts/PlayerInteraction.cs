@@ -29,26 +29,26 @@ public class PlayerInteraction : MonoBehaviour
     public static int[] getPlayerGrid(){
         Vector2 playerPos = new Vector2(player.position.x, player.position.y);
         
-        int playerGridX = (int)((player.position.x+(double)3.6)/0.6);
-        int playerGridY = (int)(12-(player.position.y+(double)3.6)/0.6);
+        int playerGridX = (int)((player.position.x+(double)3.6)/0.9);
+        int playerGridY = (int)(8-(player.position.y+(double)3.6)/0.9);
 
         return new int[]{playerGridX,playerGridY};
     }
     public static int[] getItemGrid(double x, double y){
         
-        int itemGridX = (int)((x+(double)3.6)/0.6);
-        int itemGridY = (int)(12-(y+(double)3.6)/0.6);
+        int itemGridX = (int)((x+(double)3.6)/0.9);
+        int itemGridY = (int)(8-(y+(double)3.6)/0.9);
 
         return new int[]{itemGridX,itemGridY};
     }
 
     //This method returns the position at the center of the grid.
     public static Vector2 getPosWithGrid(int[] grid){
-        float posX = (float)(grid[0]*0.6-3.3);
-        float posY = (float)(3.3-grid[1]*0.6);
+        float posX = (float)(grid[0]*0.9-3.15);
+        float posY = (float)(3.15-grid[1]*0.9);
         return new Vector2(posX,posY);
     }
-    public static void plantSeed(string seedName, GameObject seedInstance){
+    public static void plantSeed(string seedName){
         
         if(player.position.x>3.6 || player.position.x<-3.6 || player.position.y>3.6 || player.position.y<-3.6){
             Debug.Log("Cannot plant outside the garden.");
@@ -58,7 +58,7 @@ public class PlayerInteraction : MonoBehaviour
         int[] playerGrid = getPlayerGrid();
 
         Debug.Log(playerGrid[0]+" "+playerGrid[1]);
-        if(Garden.getSeed(playerGrid[0],playerGrid[1])!=null){
+        if(Garden.tiles[playerGrid[0]][playerGrid[1]]!=null){
             Debug.Log("A seed already planted here.");
             return;
         }
@@ -71,9 +71,9 @@ public class PlayerInteraction : MonoBehaviour
         Garden.plantSeed(playerGrid[0],playerGrid[1],plantedSeed);
         
 
-        Vector2 seedPos = getPosWithGrid(playerGrid);
+        // Vector2 seedPos = getPosWithGrid(playerGrid);
 
-        Instantiate(seedInstance,seedPos,Quaternion.identity);
+        // Instantiate(seedInstance,seedPos,Quaternion.identity);
 
     }
     // Start is called before the first frame update

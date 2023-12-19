@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerData : MonoBehaviour
 {
@@ -8,13 +9,14 @@ public class PlayerData : MonoBehaviour
     public static string Name;
     public static int HP;
     public static int AP;
+    public static int maxAP;
 
     public static List<Seed> SeedInventory;
-    public static List<Plant> PlantInventory;
+    public static List<Harvestment> HarvestmentInventory;
     public static Queue<Melee> MeleeInventory;
-    public static List<Potion> PotionInventory;
-    public static int mov;
-    public static int maxmov;
+    public static Queue<Potion> PotionInventory;
+    // public static int mov;
+    // public static int maxmov;
     public static bool canAttack;
     public static bool canUseItem;
     public static string facingDirection;
@@ -26,8 +28,34 @@ public class PlayerData : MonoBehaviour
         if(Equals(name,"1")){
             atk = 2;
             durability = 5;
+        }else if(Equals(name,"2")){
+            atk = 3;
+            durability = 8;
+        }else if(Equals(name,"3")){
+            atk = 2;
+            durability = 12;
         }
         return new Melee(name,durability,atk);
+    }
+
+    public static Potion craftPotion(string name){
+        int atk = 0;
+        if(Equals(name,"1")){
+            atk = 4;
+        }else if(Equals(name,"2")){
+            atk = 0;
+        }else if(Equals(name,"3")){
+            atk = 1;
+        }
+        return new Potion(name,atk);
+    }
+
+    public static bool consumeAP(int AP){
+        if(PlayerData.AP < AP){
+            return false;
+        }
+        PlayerData.AP -= AP;
+        return true;
     }
 
 
@@ -41,19 +69,30 @@ public class PlayerData : MonoBehaviour
         MeleeInventory.Enqueue(m);
         Debug.Log("Enqueue");
     }
+    public static Potion DequeuePotion(){
+        Debug.Log("Dequeue");
+        Debug.Log(PotionInventory.Peek().name);
+        return PotionInventory.Dequeue();
+    }
+
+    public static void EnqueuePotion(Potion p){
+        PotionInventory.Enqueue(p);
+        Debug.Log("Enqueue");
+    }
 
     void Start(){
         PlayerData.HP = 15;
-        PlayerData.AP = 15;
-        PlayerData.maxmov = 4;
-        PlayerData.mov = PlayerData.maxmov;
+        PlayerData.maxAP = 21+SceneManager.GetActiveScene().buildIndex*3;
+        PlayerData.AP = PlayerData.maxAP;
+        // PlayerData.maxmov = 4;
+        // PlayerData.mov = PlayerData.maxmov;
         PlayerData.canAttack = true;
         PlayerData.canUseItem = true;
         PlayerData.Name = "testPlayer1";
         PlayerData.SeedInventory = new List<Seed>();
-        PlayerData.PlantInventory = new List<Plant>();
+        PlayerData.HarvestmentInventory = new List<Harvestment>();
         PlayerData.MeleeInventory = new Queue<Melee>();
-        PlayerData.PotionInventory = new List<Potion>();
+        PlayerData.PotionInventory = new Queue<Potion>();
         PlayerData.facingDirection = "Right";
         addStarterPack();
 
@@ -81,9 +120,16 @@ public class PlayerData : MonoBehaviour
     void addStarterPack(){
 
         for(int i = 0; i < 5; i++){
-            PlayerData.SeedInventory.Add(new Seed("a",2));
-            PlayerData.SeedInventory.Add(new Seed("b",2));
-            PlayerData.SeedInventory.Add(new Seed("c",2));
+            PlayerData.SeedInventory.Add(new Seed("a"));
+            PlayerData.SeedInventory.Add(new Seed("b"));
+            PlayerData.SeedInventory.Add(new Seed("c"));
+            if(SceneManager.GetActiveScene().buildIndex>=2){
+                PlayerData.SeedInventory.Add(new Seed("d"));
+            }
+            if(SceneManager.GetActiveScene().buildIndex>=3){
+                PlayerData.SeedInventory.Add(new Seed("e"));
+            }
+            
         }
     }
 

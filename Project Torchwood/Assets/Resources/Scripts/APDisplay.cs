@@ -10,16 +10,14 @@ public class APDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData.AP = 15;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        APText.text = "" + PlayerData.AP;
+        APText.text = "| AP:" + PlayerData.AP;
         
-        if(Input.GetKeyDown(KeyCode.Backspace)){
-            PlayerData.AP--;
-        }
+
     }
 }

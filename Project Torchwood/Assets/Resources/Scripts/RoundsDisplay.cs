@@ -15,6 +15,6 @@ public class RoundsDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RoundsText.text = "Rounds Left: " + Garden.remainingRounds;
+        // RoundsText.text = "Rounds Left: " + Garden.remainingRounds;
     }
 }

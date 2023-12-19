@@ -7,6 +7,10 @@ public class MeleeTextDisplay : MonoBehaviour
 {
     
     public Text MeleeText;
+    public GameObject MeleeSlot;
+    public Sprite BasicSword;
+    public Sprite DualKatana;
+    public Sprite Scythe;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +22,19 @@ public class MeleeTextDisplay : MonoBehaviour
     {
         int atk = 0;
         int durability = 0;
+
         if(PlayerData.MeleeInventory.Count!=0){
             atk = PlayerData.MeleeInventory.Peek().damage;
             durability = PlayerData.MeleeInventory.Peek().durability;
+            if(Equals(PlayerData.MeleeInventory.Peek().name,"1")){
+                MeleeSlot.GetComponent<Image>().sprite = BasicSword;
+            }else if(Equals(PlayerData.MeleeInventory.Peek().name,"2")){
+                MeleeSlot.GetComponent<Image>().sprite = DualKatana;
+            }else if(Equals(PlayerData.MeleeInventory.Peek().name,"3")){
+                MeleeSlot.GetComponent<Image>().sprite = Scythe;
+            }
+            
         }
-        MeleeText.text = "Atk: "+atk+"\nDurability: "+durability;
+        MeleeText.text = "Atk: "+atk+"\nDura: "+durability;
     }
 }
